@@ -1,0 +1,72 @@
+import { validationResult } from "express-validator";
+import appError from "../utils/appError.js";
+import  STATUS  from "../utils/httpStatus.js";
+import product from "../models/product.model.js";
+import { isValidObjectId } from "mongoose";
+
+// ===================================================================
+const getAllProducts = async (req, res) => {
+    const products = await product.find().select('-__v')
+    const productsLength = await product.find().countDocuments()
+    res.send({
+        status: STATUS.SUCCESS,
+        data: { products, total: productsLength }
+    });
+}
+// ====================================================================
+const getSingleProduct = async (req, res, next) => {
+    const { id } = req.params;
+    const isValidID = isValidObjectId(id)
+    if (!isValidID) {
+        const err = appError.create("invalid product id", 400, STATUS.FAIL)
+        return next(err)
+    }
+    const targetProduct = await product.findById(id).select('-__v')
+    if (!targetProduct) {
+        const err = appError.create("product not found", 404, STATUS.FAIL)
+        return next(err)
+    }
+    res.send({
+        status: STATUS.SUCCESS,
+        data: targetProduct
+    });
+}
+// ====================================================================
+const createProduct = async (req, res, next) => {
+    const result = validationResult(req)
+    const productData = req.body;
+    if (!result.isEmpty()) {
+        const errorsMsg = result.array().map(e => (e.msg))
+        const err = appError.create(errorsMsg.join(' & '), 400, STATUS.FAIL)
+        return next(err)
+    }
+    const newProduct = new product(productData)
+    await newProduct.save()
+    res.json({
+        status: STATUS.SUCCESS,
+        data: newProduct
+    }).end();
+}
+// ====================================================================
+const updateProduct = async (req, res, next) => {
+    const { id } = req.params;
+    const update = req.body
+    const isValidID = isValidObjectId(id)
+    if (!isValidID) {
+        const err = appError.create("invalid product id", 400, STATUS.FAIL)
+        return next(err)
+    }
+    const updatedProduct = await product.findByIdAndUpdate(id, update, { new: true }).select('-__v')
+    if (!updatedProduct) {
+        const err = appError.create("product not found", 404, STATUS.FAIL)
+        return next(err)
+    }
+    console.log('updatedProduct: ', updatedProduct);
+
+    res.send({
+        status: STATUS.SUCCESS,
+        data: updatedProduct
+    });
+}
+
+export { getAllProducts, getSingleProduct, createProduct, updateProduct };
