@@ -44,7 +44,8 @@ const createProduct = async (req, res, next) => {
     await newProduct.save()
     res.json({
         status: STATUS.SUCCESS,
-        data: newProduct
+        data: newProduct,
+        message: "product created successfully"
     }).end();
 }
 // ====================================================================
@@ -65,8 +66,28 @@ const updateProduct = async (req, res, next) => {
 
     res.send({
         status: STATUS.SUCCESS,
-        data: updatedProduct
+        data: updatedProduct,
+        message: "product updated successfully"
+    });
+}
+// ====================================================================
+const deleteProduct = async (req, res, next) => {
+    const { id } = req.params;
+    const isValidID = isValidObjectId(id)
+    if (!isValidID) {
+        const err = appError.create("invalid product id", 400, STATUS.FAIL)
+        return next(err)
+    }
+    const deletedProduct = await product.findByIdAndDelete(id).select('-__v')
+    if (!deletedProduct) {
+        const err = appError.create("product not found", 404, STATUS.FAIL)
+        return next(err)
+    }
+    res.send({
+        status: STATUS.SUCCESS,
+        data: deletedProduct,
+        message: "product deleted successfully"
     });
 }
 
-export { getAllProducts, getSingleProduct, createProduct, updateProduct };
+export { getAllProducts, getSingleProduct, createProduct, updateProduct, deleteProduct };

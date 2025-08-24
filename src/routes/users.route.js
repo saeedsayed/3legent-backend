@@ -5,6 +5,6 @@ import { checkToken } from '../middlewares/auth.middleware.js'
 const router = express.Router()
 
 router.route("/").get(checkToken,getAllUsers)
-router.route("/all").get(checkToken,getAllUsers)
+router.route("/:id").get(checkToken,getAllUsers)
 
 export default router

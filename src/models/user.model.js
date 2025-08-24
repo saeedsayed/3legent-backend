@@ -1,24 +1,30 @@
 import mongoose from "mongoose";
+import roles from "../utils/roles.js";
 
 const userSchema = new mongoose.Schema({
-    fullName:{
-        type:String,
-        required:true,
+    fullName: {
+        type: String,
+        required: true,
     },
-    email:{
-        type:String,
-        required:true,
-        unique:true
+    email: {
+        type: String,
+        required: true,
+        unique: true
     },
-    password:{
-        type:String,
-        required:true
+    password: {
+        type: String,
+        required: true
     },
-    avatar:{
-        type:String,
-        default:null
+    avatar: {
+        type: String,
+        default: null
+    },
+    role: {
+        type: String,
+        enum: Object.values(roles),
+        default: roles.CUSTOMER
     }
-},{timestamps:true})
+}, { timestamps: true })
 
 const user = mongoose.model("user", userSchema)
 

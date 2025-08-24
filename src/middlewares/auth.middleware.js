@@ -2,6 +2,7 @@ import { body } from "express-validator";
 import appError from "../utils/appError.js"
 import STATUS from "../utils/httpStatus.js"
 import jwt from "jsonwebtoken"
+import user from "../models/user.model.js";
 
 export const registerSchema = () => (
     [
@@ -37,5 +38,16 @@ export const checkToken = async (req, res, next) => {
     } catch {
         const err = appError.create("Unauthorized - Token expired", 401, STATUS.FAIL)
         return next(err)
+    }
+}
+export const restrictTo = (...roles) => {
+    console.log('roles', roles)
+    return async (req, res, next) => {
+        const u = await user.findById(req._id)
+        if (!roles.includes(u.role)) {
+            const err = appError.create("Forbidden - You don't have permission", 403, STATUS.FAIL)
+            return next(err)
+        }
+        next()
     }
 }

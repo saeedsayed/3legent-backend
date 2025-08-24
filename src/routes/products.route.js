@@ -1,14 +1,16 @@
 import express from "express";
-import { getAllProducts, getSingleProduct, createProduct, updateProduct } from "../controllers/products.controller.js";
+import { getAllProducts, getSingleProduct, createProduct, updateProduct, deleteProduct } from "../controllers/products.controller.js";
 import { CreateProductSchema } from "../middlewares/products.middleware.js";
+import { checkToken } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
 router.route('/')
     .get(getAllProducts)
-    .post(CreateProductSchema(),createProduct);
+    .post(checkToken,CreateProductSchema(),createProduct);
 router.route('/:id')
     .get(getSingleProduct)
-    .put(updateProduct);
+    .put(checkToken, updateProduct)
+    .delete(checkToken, deleteProduct);
 
 export default router;
