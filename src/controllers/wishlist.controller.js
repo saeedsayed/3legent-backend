@@ -2,7 +2,7 @@ import { isValidObjectId } from "mongoose";
 import product from "../models/product.model.js";
 import appError from "../utils/appError.js";
 import STATUS from "../utils/httpStatus.js";
-import wishList from "../models/wishList.model.js";
+import wishList from "../models/wishlist.model.js";
 
 const getWishListProducts = async (userWishList) => {
     const arrProduct = await Promise.all(userWishList.products.map(async productId => {
