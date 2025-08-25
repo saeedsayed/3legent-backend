@@ -13,7 +13,8 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        select: false
     },
     avatar: {
         type: String,
@@ -23,6 +24,18 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: Object.values(roles),
         default: roles.CUSTOMER
+    },
+    cart: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "cart"
+    },
+    wishList: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "wishList"
+    },
+    __v: {
+        type: Number,
+        select: false
     }
 }, { timestamps: true })
 

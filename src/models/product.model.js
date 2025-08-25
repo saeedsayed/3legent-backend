@@ -24,7 +24,7 @@ const versionsSchema = new mongoose.Schema({
     }
 })
 
-const productSchema = new mongoose.Schema({
+export const productSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true
@@ -43,7 +43,8 @@ const productSchema = new mongoose.Schema({
     },
     category: {
         type: [String],
-        required: true
+        required: true,
+        ref: 'category'
     },
     stock: {
         type: Number,
@@ -92,8 +93,12 @@ const productSchema = new mongoose.Schema({
     reviewsCount: {
         type: Number,
         default: 0
+    },
+    __v:{
+        type:Number,
+        select:false
     }
-})
+},{timestamps:true})
 
 const product = mongoose.model("product", productSchema)
 

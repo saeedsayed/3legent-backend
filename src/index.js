@@ -8,6 +8,8 @@ import productsRoutes from './routes/products.route.js';
 import authRoutes from "./routes/auth.route.js"
 import usersRouts from "./routes/users.route.js"
 import categoriesRoutes from "./routes/categories.route.js"
+import cartRouter from "./routes/carts.route.js"
+import wishListRouter from "./routes/wishlist.route.js"
 configDotenv();
 connectDB()
 
@@ -22,10 +24,10 @@ app.use('/api/v1/products', productsRoutes);
 app.use('/api/v1/categories', categoriesRoutes);
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/users', usersRouts);
+app.use('/api/v1/cart', cartRouter);
+app.use('/api/v1/wishlist', wishListRouter);
 
-// app.all("*", (req, res) => {
-//   res.status(404).json({ message: "route not defined" });
-// });
+// handle 404 routes
 app.use((req, res, next) => {
     res.status(404).json({ status: "error", message: "route not defined", code: 404 });
 });

@@ -13,8 +13,12 @@ const categoriesSchema = new mongoose.Schema({
     image: {
         type: String,
         default: null
+    },
+    __v: {
+        type: Number,
+        select: false
     }
-})
+},{timestamps: true})
 
 const category = mongoose.model("category", categoriesSchema)
 

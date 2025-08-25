@@ -6,7 +6,7 @@ import { isValidObjectId } from "mongoose";
 
 // ===================================================================
 const getAllProducts = async (req, res) => {
-    const products = await product.find().select('-__v')
+    const products = await product.find()
     const productsLength = await product.find().countDocuments()
     res.send({
         status: STATUS.SUCCESS,
@@ -21,7 +21,7 @@ const getSingleProduct = async (req, res, next) => {
         const err = appError.create("invalid product id", 400, STATUS.FAIL)
         return next(err)
     }
-    const targetProduct = await product.findById(id).select('-__v')
+    const targetProduct = await product.findById(id)
     if (!targetProduct) {
         const err = appError.create("product not found", 404, STATUS.FAIL)
         return next(err)
@@ -57,7 +57,7 @@ const updateProduct = async (req, res, next) => {
         const err = appError.create("invalid product id", 400, STATUS.FAIL)
         return next(err)
     }
-    const updatedProduct = await product.findByIdAndUpdate(id, update, { new: true }).select('-__v')
+    const updatedProduct = await product.findByIdAndUpdate(id, update, { new: true })
     if (!updatedProduct) {
         const err = appError.create("product not found", 404, STATUS.FAIL)
         return next(err)
@@ -78,7 +78,7 @@ const deleteProduct = async (req, res, next) => {
         const err = appError.create("invalid product id", 400, STATUS.FAIL)
         return next(err)
     }
-    const deletedProduct = await product.findByIdAndDelete(id).select('-__v')
+    const deletedProduct = await product.findByIdAndDelete(id)
     if (!deletedProduct) {
         const err = appError.create("product not found", 404, STATUS.FAIL)
         return next(err)

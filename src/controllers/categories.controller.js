@@ -6,7 +6,7 @@ import category from "../models/categories.model.js";
 
 // ===================================================================
 const getCategories = async (req, res) => {
-    const categories = await category.find().select('-__v')
+    const categories = await category.find()
     const categoriesLength = await category.find().countDocuments()
     res.send({
         status: STATUS.SUCCESS,
@@ -44,7 +44,7 @@ const updateCategory = async (req, res, next) => {
         const err = appError.create("invalid category id", 400, STATUS.FAIL)
         return next(err)
     }
-    const updatedCategory = await category.findByIdAndUpdate(id, update, { new: true }).select('-__v')
+    const updatedCategory = await category.findByIdAndUpdate(id, update, { new: true })
     if (!updatedCategory) {
         const err = appError.create("category not found", 404, STATUS.FAIL)
         return next(err)
@@ -64,7 +64,7 @@ const deleteCategory = async (req, res, next) => {
         const err = appError.create("invalid category id", 400, STATUS.FAIL)
         return next(err)
     }
-    const deletedCategory = await category.findByIdAndDelete(id).select('-__v')
+    const deletedCategory = await category.findByIdAndDelete(id)
     if (!deletedCategory) {
         const err = appError.create("category not found", 404, STATUS.FAIL)
         return next(err)
