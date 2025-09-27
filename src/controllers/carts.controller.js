@@ -21,7 +21,7 @@ const getCartTotalPrice = (cartProducts) => {
 
 const getCart = async (req, res, next) => {
     try {
-        const userCart = await cart.findOne({ user: req._id });
+        const userCart = await cart.findOne({ user: req.userId });
         if (!userCart) {
             const err = appError.create("Cart not found", 404, STATUS.FAIL);
             return next(err);
@@ -36,11 +36,11 @@ const getCart = async (req, res, next) => {
 const addToCart = async (req, res, next) => {
     const { productId, quantity } = req.body;
     try {
-        let userCart = await cart.findOne({ user: req._id });
+        let userCart = await cart.findOne({ user: req.userId });
         // Create a new cart if it doesn't exist
         if (!userCart) {
             userCart = new cart({
-                user: req._id,
+                user: req.userId,
                 products: [{ product: productId, quantity }],
                 totalPrice: 0
             });
@@ -72,7 +72,7 @@ const removeFromCart = async (req, res, next) => {
             const err = appError.create("Invalid product ID", 400, STATUS.FAIL);
             return next(err);
         }
-        const userCart = await cart.findOne({ user: req._id });
+        const userCart = await cart.findOne({ user: req.userId });
         if (!userCart) {
             const err = appError.create("Cart not found", 404, STATUS.FAIL);
             return next(err);

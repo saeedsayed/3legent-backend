@@ -14,7 +14,7 @@ const getWishListProducts = async (userWishList) => {
 
 const getWishList = async (req, res, next) => {
     try {
-        const userWishList = await wishList.findOne({ user: req._id });
+        const userWishList = await wishList.findOne({ user: req.userId });
         if (!userWishList) {
             const err = appError.create("WishList not found", 404, STATUS.FAIL);
             return next(err);
@@ -29,15 +29,15 @@ const getWishList = async (req, res, next) => {
 const addToWishList = async (req, res, next) => {
     const { productId } = req.body;
     try {
-        let userWishList = await wishList.findOne({ user: req._id });
+        let userWishList = await wishList.findOne({ user: req.userId });
         // Create a new wish list if it doesn't exist
         if (!userWishList) {
             userWishList = new wishList({
-                user: req._id,
+                user: req.userId,
                 products: [productId],
             });
         } else {
-            const productIndex = userWishList.products.findIndex(p => p._id.toString() === productId);
+            const productIndex = userWishList.products.findIndex(p => p.userId.toString() === productId);
             // If the product is already in the wish list, do nothing
             if (productIndex > -1) {
                 const err = appError.create("Product is already in the wish list", 400, STATUS.FAIL);
@@ -62,7 +62,7 @@ const removeFromWishList = async (req, res, next) => {
             const err = appError.create("Invalid product ID", 400, STATUS.FAIL);
             return next(err);
         }
-        const userWishList = await wishList.findOne({ user: req._id });
+        const userWishList = await wishList.findOne({ user: req.userId });
         if (!userWishList) {
             const err = appError.create("WishList not found", 404, STATUS.FAIL);
             return next(err);

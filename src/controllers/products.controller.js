@@ -1,4 +1,3 @@
-import { validationResult } from "express-validator";
 import appError from "../utils/appError.js";
 import  STATUS  from "../utils/httpStatus.js";
 import product from "../models/product.model.js";
@@ -33,20 +32,17 @@ const getSingleProduct = async (req, res, next) => {
 }
 // ====================================================================
 const createProduct = async (req, res, next) => {
-    const result = validationResult(req)
-    const productData = req.body;
-    if (!result.isEmpty()) {
-        const errorsMsg = result.array().map(e => (e.msg))
-        const err = appError.create(errorsMsg.join(' & '), 400, STATUS.FAIL)
-        return next(err)
-    }
-    const newProduct = new product(productData)
-    await newProduct.save()
-    res.json({
-        status: STATUS.SUCCESS,
-        data: newProduct,
-        message: "product created successfully"
-    }).end();
+    console.log('req.body', {...req.body})
+    console.log('req.body', req.files)
+    // const productData = req.body;
+    // const newProduct = new product(productData)
+    // await newProduct.save()
+    // res.json({
+    //     status: STATUS.SUCCESS,
+    //     data: newProduct,
+    //     message: "product created successfully"
+    // }).end();
+    res.end()
 }
 // ====================================================================
 const updateProduct = async (req, res, next) => {
@@ -62,7 +58,6 @@ const updateProduct = async (req, res, next) => {
         const err = appError.create("product not found", 404, STATUS.FAIL)
         return next(err)
     }
-    console.log('updatedProduct: ', updatedProduct);
 
     res.send({
         status: STATUS.SUCCESS,

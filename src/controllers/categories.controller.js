@@ -1,4 +1,3 @@
-import { validationResult } from "express-validator";
 import appError from "../utils/appError.js";
 import  STATUS  from "../utils/httpStatus.js";
 import { isValidObjectId } from "mongoose";
@@ -15,13 +14,7 @@ const getCategories = async (req, res) => {
 }
 // ====================================================================
 const createCategory = async (req, res, next) => {
-    const result = validationResult(req)
     const categoryData = req.body;
-    if (!result.isEmpty()) {
-        const errorsMsg = result.array().map(e => (e.msg))
-        const err = appError.create(errorsMsg.join(' & '), 400, STATUS.FAIL)
-        return next(err)
-    }
     const isCategoryExists = await category.findOne({ name: categoryData.name })
     if (isCategoryExists) {
         const err = appError.create("category already exists", 400, STATUS.FAIL)

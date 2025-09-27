@@ -1,4 +1,3 @@
-import { validationResult } from "express-validator"
 import STATUS from "../utils/httpStatus.js"
 import appError from "../utils/appError.js"
 import user from "../models/user.model.js"
@@ -9,12 +8,6 @@ import wishList from "../models/wishList.model.js"
 
 // =====================================================================
 export const register = async (req, res, next) => {
-    const result = validationResult(req)
-    if (!result.isEmpty()) {
-        const errMsg = result.array().map(e => (e.msg))
-        const err = appError.create(errMsg.join(' & '), 400, STATUS.FAIL)
-        return next(err)
-    }
     const { fullName, email, password } = req.body
     const isExistingUser = await user.findOne({ email })
     if (isExistingUser) {
@@ -35,19 +28,12 @@ export const register = async (req, res, next) => {
     delete newUser._doc.password
     delete newUser._doc.__v
     res.json({
-        status: STATUS.SUCCESS, data: newUser
+        status: STATUS.SUCCESS, data: newUser, message: "user registered successfully"
     })
 }
 // =====================================================================
 export const login = async (req, res, next) => {
-    const result = validationResult(req)
-    if (!result.isEmpty()) {
-        const errMsg = result.array().map(e => (e.msg))
-        const err = appError.create(errMsg.join(' & '), 400, STATUS.FAIL)
-        return next(err)
-    }
     const { email, password } = req.body
-    console.log('{ email, password }', { email, password })
     const isExistingUser = await user.findOne({ email }).select("+password")
     if (!isExistingUser) {
         const err = appError.create("invalid credentials", 400, STATUS.FAIL)
@@ -68,5 +54,5 @@ export const login = async (req, res, next) => {
 // =====================================================================
 export const logout = (req, res) => {
     res.cookie('jwt', '', { maxAge: 0 })
-    res.json({ status: STATUS.SUCCESS, data: { message: "Logged out successfully" } })
+    res.json({ status: STATUS.SUCCESS, message: "Logged out successfully" })
 }
