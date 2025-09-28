@@ -23,7 +23,10 @@ const DEVELOP_MODE = process.env.NODE_ENV === 'development';
 app.use(cors())
 app.use(express.json());
 app.use(CookieParser())
-app.use(fileUpload({ useTempFiles: true }));
+app.use(fileUpload({
+  useTempFiles: true,
+  tempFileDir: '/tmp/'
+}));
 
 app.use('/api/v1/general', generalRoutes);
 app.use('/api/v1/media-library', mediaLibraryRoute);
@@ -40,6 +43,7 @@ app.use((req, res, next) => {
 });
 // handle errors globally
 app.use((err, req, res, next) => {
+    console.log('err', err)
     res.status(err.code || 500).json({
         status: err.status || "error",
         message: err.message || "internal server error",
@@ -51,7 +55,7 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
     if (DEVELOP_MODE) {
         console.log(`Server is running on port ${port} 🚀`);
-    }else{
+    } else {
         console.log(`Server is running 🚀`);
     }
 })
