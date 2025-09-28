@@ -32,17 +32,14 @@ const getSingleProduct = async (req, res, next) => {
 }
 // ====================================================================
 const createProduct = async (req, res, next) => {
-    console.log('req.body', {...req.body})
-    console.log('req.body', req.files)
-    // const productData = req.body;
-    // const newProduct = new product(productData)
-    // await newProduct.save()
-    // res.json({
-    //     status: STATUS.SUCCESS,
-    //     data: newProduct,
-    //     message: "product created successfully"
-    // }).end();
-    res.end()
+    const productData = req.body;
+    const newProduct = new product(productData)
+    await newProduct.save()
+    res.json({
+        status: STATUS.SUCCESS,
+        data: newProduct,
+        message: "product created successfully"
+    }).end();
 }
 // ====================================================================
 const updateProduct = async (req, res, next) => {
