@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken"
 import user from "../models/user.model.js";
 
 export const checkToken = async (req, res, next) => {
-    const token = req?.cookies?.jwt
+    const token = req.headers.authorization.split(" ")[1];
     if (!token) {
         const err = appError.create("Unauthorized - No Token Provided", 401, STATUS.FAIL)
         return next(err)
