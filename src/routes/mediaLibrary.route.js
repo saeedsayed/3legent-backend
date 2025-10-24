@@ -1,33 +1,34 @@
-import express from 'express';
-import { checkToken, restrictTo } from '../middlewares/auth.middleware.js';
-import roles from '../utils/roles.js';
+import express from "express";
+import { checkToken, restrictTo } from "../middlewares/auth.middleware.js";
+import roles from "../utils/roles.js";
 import {
-    getMediaLibrary,
-    uploadFiles,
-    createFolder,
-    getFolders,
-    getFolder,
-    deleteFiles,
-    deleteFolder
-} from '../controllers/mediaLibrary.controller.js';
+  getMediaLibrary,
+  uploadFiles,
+  createFolder,
+  getFolders,
+  getFolder,
+  deleteFiles,
+  deleteFolder,
+} from "../controllers/mediaLibrary.controller.js";
 
-const router = express.Router()
+const router = express.Router();
 
-router.route("/")
-    .get(checkToken, restrictTo(roles.ADMIN), getMediaLibrary)
+router.route("/").get(checkToken, restrictTo(roles.ADMIN), getMediaLibrary);
 
-router.route("/folders")
-    .get(checkToken, restrictTo(roles.ADMIN), getFolders)
-    .post(checkToken, restrictTo(roles.ADMIN), createFolder)
+router
+  .route("/folders")
+  .get(checkToken, restrictTo(roles.ADMIN), getFolders)
+  .post(checkToken, restrictTo(roles.ADMIN), createFolder);
 
-router.route("/folders/:folderId")
-    .get(checkToken, restrictTo(roles.ADMIN), getFolder)
-    // .put(checkToken, restrictTo(roles.ADMIN), updateFolder)
-    .delete(checkToken, restrictTo(roles.ADMIN), deleteFolder)
+router
+  .route("/folders/:folderId")
+  .get(checkToken, restrictTo(roles.ADMIN), getFolder)
+  // .put(checkToken, restrictTo(roles.ADMIN), updateFolder)
+  .delete(checkToken, restrictTo(roles.ADMIN), deleteFolder);
 
-router.route("/folders/:folderId/files")
-    .post(checkToken, restrictTo(roles.ADMIN), uploadFiles)
-    .delete(checkToken, restrictTo(roles.ADMIN), deleteFiles)
-
+router
+  .route("/folders/:folderId/files")
+  .post(checkToken, restrictTo(roles.ADMIN), uploadFiles)
+  .delete(checkToken, restrictTo(roles.ADMIN), deleteFiles);
 
 export default router;

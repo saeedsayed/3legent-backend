@@ -1,80 +1,76 @@
 import { isValidObjectId } from "mongoose";
-import product from "../models/product.model.js";
 import appError from "../utils/appError.js";
 import STATUS from "../utils/httpStatus.js";
 import wishList from "../models/wishList.model.js";
 
-const getWishListProducts = async (userWishList) => {
-    const arrProduct = await Promise.all(userWishList.products.map(async productId => {
-        const productDb = await product.findById(productId);
-        return productDb;
-    }));
-    return arrProduct;
-};
-
+// ====================== Get wish list ==============================
 const getWishList = async (req, res, next) => {
-    try {
-        const userWishList = await wishList.findOne({ user: req.userId });
-        if (!userWishList) {
-            const err = appError.create("WishList not found", 404, STATUS.FAIL);
-            return next(err);
-        }
-        const wishListProducts = await getWishListProducts(userWishList);
-        res.json({ status: STATUS.SUCCESS, data: wishListProducts });
-    } catch (error) {
-        next(error);
+  try {
+    const userWishList = await wishList
+      .findOne({ user: req.userId })
+      .populate("products");
+    if (!userWishList) {
+      const err = appError.create("WishList not found", 404, STATUS.FAIL);
+      return next(err);
     }
+    res.json({ status: STATUS.SUCCESS, data: userWishList.products });
+  } catch (error) {
+    next(error);
+  }
 };
 // ====================================================================
 const addToWishList = async (req, res, next) => {
+  try {
     const { productId } = req.body;
-    try {
-        let userWishList = await wishList.findOne({ user: req.userId });
-        // Create a new wish list if it doesn't exist
-        if (!userWishList) {
-            userWishList = new wishList({
-                user: req.userId,
-                products: [productId],
-            });
-        } else {
-            const productIndex = userWishList.products.findIndex(p => p.userId.toString() === productId);
-            // If the product is already in the wish list, do nothing
-            if (productIndex > -1) {
-                const err = appError.create("Product is already in the wish list", 400, STATUS.FAIL);
-                return next(err);
-            } else {
-                userWishList.products.push(productId);
-            }
-        }
-        await userWishList.save();
-        const wishListProducts = await getWishListProducts(userWishList);
-        res.json({ status: STATUS.SUCCESS, data: wishListProducts, message: "Product added to wish list" });
-    } catch (error) {
-        next(error);
+    const isValidID = isValidObjectId(productId);
+    if (!isValidID) {
+      const err = appError.create("Invalid product ID", 400, STATUS.FAIL);
+      return next(err);
     }
+    const userWishList = await wishList
+      .findOneAndUpdate(
+        { user: req.userId },
+        { $addToSet: { products: productId } },
+        { new: true, upsert: true }
+      )
+      .populate("products");
+    res.json({
+      status: STATUS.SUCCESS,
+      data: userWishList.products,
+      message: "Product added to wish list",
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 // ====================================================================
 const removeFromWishList = async (req, res, next) => {
-    const { id: productId } = req.params;
-    try {
-        const isValidID = isValidObjectId(productId);
-        if (!isValidID) {
-            const err = appError.create("Invalid product ID", 400, STATUS.FAIL);
-            return next(err);
-        }
-        const userWishList = await wishList.findOne({ user: req.userId });
-        if (!userWishList) {
-            const err = appError.create("WishList not found", 404, STATUS.FAIL);
-            return next(err);
-        }
-        userWishList.products = userWishList.products.filter(p => p._id.toString() !== productId);
-        await userWishList.save();
-        const wishListProducts = await getWishListProducts(userWishList);
-        res.json({ status: STATUS.SUCCESS, data: wishListProducts, message: "Product removed from wish list" });
-    } catch (error) {
-        next(error);
+  try {
+    const { productId } = req.body;
+    const isValidID = isValidObjectId(productId);
+    if (!isValidID) {
+      const err = appError.create("Invalid product ID", 400, STATUS.FAIL);
+      return next(err);
     }
+    const userWishList = await wishList
+      .findOneAndUpdate(
+        { user: req.userId },
+        { $pull: { products: productId } },
+        { new: true }
+      )
+      .populate("products");
+    if (!userWishList) {
+      const err = appError.create("WishList not found", 404, STATUS.FAIL);
+      return next(err);
+    }
+    res.json({
+      status: STATUS.SUCCESS,
+      data: userWishList.products,
+      message: "Product removed from wish list",
+    });
+  } catch (error) {
+    next(error);
+  }
 };
-
 
 export { getWishList, addToWishList, removeFromWishList };
