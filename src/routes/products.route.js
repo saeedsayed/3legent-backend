@@ -10,13 +10,14 @@ import { checkToken, restrictTo } from "../middlewares/auth.middleware.js";
 import roles from "../utils/roles.js";
 import { validate } from "../middlewares/validate.middleware.js";
 import { createProductSchema } from "../validators/product.validator.js";
+import { paginate } from "../middlewares/pagination.middleware.js";
+import product from "../models/product.model.js";
 
 const router = express.Router();
 
 router
   .route("/")
-  .get(getAllProducts)
-  // .post(checkToken, restrictTo(roles.ADMIN), createProduct);
+  .get(paginate(product), getAllProducts)
   .post(
     checkToken,
     restrictTo(roles.ADMIN),

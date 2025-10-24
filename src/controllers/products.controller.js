@@ -5,11 +5,20 @@ import { isValidObjectId } from "mongoose";
 
 // ===================================================================
 const getAllProducts = async (req, res) => {
-  const products = await product.find();
-  const productsLength = await product.find().countDocuments();
+  const { pagination } = req;
+  const products = await product
+    .find()
+    .skip(pagination.skip)
+    .limit(pagination.limit);
   res.send({
     status: STATUS.SUCCESS,
-    data: { products, total: productsLength },
+    data: products ,
+    results: pagination.totalDocuments,
+    paginate:{
+        currentPage: pagination.currentPage,
+        totalPages: pagination.totalPages,
+        limit: pagination.limit
+    }
   });
 };
 // ====================================================================

@@ -35,6 +35,6 @@ router
   .post(validate(verifyForgotPasswordOtpSchema), verifyForgotPasswordOtp);
 router
   .route("/reset-password")
-  .post(validate(resetPasswordSchema), resetPassword);
+  .put(validate(resetPasswordSchema), resetPassword);
 
 export default router;
