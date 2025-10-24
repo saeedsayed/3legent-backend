@@ -32,11 +32,6 @@ const cartSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-// cartSchema.path("products").validate(function (products) {
-//     const productIds = products.map(p => p.product.toString());
-//     return productIds.length === new Set(productIds).size; // ensures uniqueness
-// }, "Duplicate product found in cart");
-
 const cart = mongoose.model("cart", cartSchema);
 
 export default cart;

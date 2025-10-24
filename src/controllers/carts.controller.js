@@ -2,11 +2,12 @@ import { isValidObjectId } from "mongoose";
 import cart from "../models/cart.model.js";
 import appError from "../utils/appError.js";
 import STATUS from "../utils/httpStatus.js";
-
+//  ==============================  Helper Function ============================================
 const getCartTotalPrice = (cartProducts) => {
     return cartProducts.reduce((acc, p) => acc + p.quantity * p.product.price, 0);
 };
-// ===========================================================================
+
+// ===============================  Get Cart ============================================
 const getCart = async (req, res, next) => {
     try {
         const userCart = await cart.findOne({ user: req.userId }).populate('products.product');
@@ -19,7 +20,7 @@ const getCart = async (req, res, next) => {
         next(error);
     }
 };
-// ====================================================================
+// ==============================  Add To Cart ============================================
 const addToCart = async (req, res, next) => {
     const { productId, quantity } = req.body;
     try {
@@ -48,7 +49,7 @@ const addToCart = async (req, res, next) => {
         next(error);
     }
 };
-// ====================================================================
+// ==============================  Remove From Cart ============================================
 const removeFromCart = async (req, res, next) => {
     const { productId } = req.body;
     try {
@@ -70,7 +71,7 @@ const removeFromCart = async (req, res, next) => {
         next(error);
     }
 };
-// =======================================================================
+// =============================  Clear Cart ===========================================
 const clearCart = async (req, res, next) => {
     try {
         const userCart = await cart.findOne({ user: req.userId });

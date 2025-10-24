@@ -61,7 +61,6 @@ const uploadFiles = async (req, res, next) => {
     // upload files to cloudinary
     const arrOfFilesPaths = Promise.all(arrOfMedia.map(async (file) => {
         const filePath = await cloudinary.uploader.upload(file.tempFilePath, { folder: folder.folderTitle })
-        // console.log('filePath', filePath)
         clearTempFile(file.tempFilePath)
         return { fileUrl: filePath.secure_url, publicId: filePath.public_id }
     }))

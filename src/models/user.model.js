@@ -5,20 +5,44 @@ const userSchema = new mongoose.Schema({
     fullName: {
         type: String,
         required: true,
+        trim: true
     },
     email: {
         type: String,
         required: true,
-        unique: true
-    },
-    password: {
-        type: String,
-        required: true,
-        select: false
+        unique: true,
+        trim: true
     },
     avatar: {
         type: String,
         default: null
+    },
+    password: {
+        type: String,
+        required: true,
+        select: false,
+        trim: true
+    },
+    passwordChangedAt: {
+        type: Date,
+        select: false
+    },
+    otp: {
+        type: String,
+        select: false
+    },
+    otpExpiresAt: {
+        type: Date,
+        select: false
+    },
+    otpVerified: {
+        type: Boolean,
+        default: false,
+        select: false
+    },
+    isVerified:{
+        type: Boolean,
+        default: false
     },
     role: {
         type: String,
