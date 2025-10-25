@@ -6,7 +6,7 @@ import { isValidObjectId } from "mongoose";
 // ===================================================================
 const getAllProducts = async (req, res) => {
   const { pagination, filter } = req;
-  const { currentPage, nextPage, previousPage, totalDocuments, limit, skip } =
+  const { currentPage, nextPage, previousPage, totalDocuments, limit, totalPages, skip } =
     pagination;
   const products = await product.find(filter).skip(skip).limit(limit);
   res.send({
