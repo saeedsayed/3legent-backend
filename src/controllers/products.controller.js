@@ -6,19 +6,20 @@ import { isValidObjectId } from "mongoose";
 // ===================================================================
 const getAllProducts = async (req, res) => {
   const { pagination, filter } = req;
-  const products = await product
-    .find(filter)
-    .skip(pagination.skip)
-    .limit(pagination.limit);
+  const { currentPage, nextPage, previousPage, totalDocuments, limit, skip } =
+    pagination;
+  const products = await product.find(filter).skip(skip).limit(limit);
   res.send({
     status: STATUS.SUCCESS,
-    data: products ,
-    results: pagination.totalDocuments,
-    paginate:{
-        currentPage: pagination.currentPage,
-        totalPages: pagination.totalPages,
-        limit: pagination.limit
-    }
+    data: products,
+    results: totalDocuments,
+    paginate: {
+      currentPage: currentPage,
+      nextPage: nextPage,
+      previousPage: previousPage,
+      totalPages: totalPages,
+      limit: limit,
+    },
   });
 };
 // ====================================================================

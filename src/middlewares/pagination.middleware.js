@@ -12,6 +12,8 @@ export const paginate = (model) => async (req, res, next) => {
       skip,
       totalPages,
       currentPage: pageNumber,
+      nextPage:pageNumber+1,
+      previousPage:pageNumber-1,
       totalDocuments,
     };
     next();
