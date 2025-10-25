@@ -66,7 +66,11 @@ export const sendOtpToEmail = async (req, res, next) => {
     return next(err);
   }
   if (targetUser.isVerified) {
-    const err = appError.create("your email is already verified", 400, STATUS.FAIL);
+    const err = appError.create(
+      "your email is already verified",
+      400,
+      STATUS.FAIL
+    );
     return next(err);
   }
   const { otp, hashedOtp, otpExpiresAt } = await generateOtp(4, 10);
@@ -115,9 +119,21 @@ export const verifyEmail = async (req, res, next) => {
 // ===============================  forgotPassword  ======================================
 export const forgotPassword = async (req, res, next) => {
   const { email } = req.body;
-  const targetUser = await user.findOne({ email });
+  const targetUser = await user.findOne({ email }).select("+otpExpiresAt");
   if (!targetUser) {
     const err = appError.create("user not found", 404, STATUS.FAIL);
+    return next(err);
+  }
+  if (new Date(Date.now() + 8 * 60 * 1000) < targetUser.otpExpiresAt) {
+    const waitTime =
+      targetUser.otpExpiresAt - new Date(Date.now() + 8 * 60 * 1000);
+    const err = appError.create(
+      `please wait for ${Math.ceil(
+        waitTime / 1000
+      )} seconds before requesting a new OTP`,
+      400,
+      STATUS.FAIL
+    );
     return next(err);
   }
   const { otp, hashedOtp, otpExpiresAt } = await generateOtp(4, 10);
