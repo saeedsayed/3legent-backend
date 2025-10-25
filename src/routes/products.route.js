@@ -12,12 +12,13 @@ import { validate } from "../middlewares/validate.middleware.js";
 import { createProductSchema } from "../validators/product.validator.js";
 import { paginate } from "../middlewares/pagination.middleware.js";
 import product from "../models/product.model.js";
+import { filter } from "../middlewares/filter.middleware.js";
 
 const router = express.Router();
 
 router
   .route("/")
-  .get(paginate(product), getAllProducts)
+  .get(filter, paginate(product), getAllProducts)
   .post(
     checkToken,
     restrictTo(roles.ADMIN),
