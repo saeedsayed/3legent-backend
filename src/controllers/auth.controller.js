@@ -65,6 +65,10 @@ export const sendOtpToEmail = async (req, res, next) => {
     const err = appError.create("user not found", 404, STATUS.FAIL);
     return next(err);
   }
+  if (targetUser.isVerified) {
+    const err = appError.create("your email is already verified", 400, STATUS.FAIL);
+    return next(err);
+  }
   const { otp, hashedOtp, otpExpiresAt } = await generateOtp(4, 10);
   targetUser.otp = hashedOtp;
   targetUser.otpExpiresAt = otpExpiresAt;
