@@ -11,8 +11,9 @@ import usersRouts from "./routes/users.route.js";
 import categoriesRoutes from "./routes/categories.route.js";
 import cartRouter from "./routes/carts.route.js";
 import wishListRouter from "./routes/wishlist.route.js";
-import generalRoutes from "./routes/general.route.js";
+import homeRoutes from "./routes/home.route.js";
 import mediaLibraryRoute from "./routes/mediaLibrary.route.js";
+import blogsRouter from "./routes/blogs.route.js";
 configDotenv();
 connectDB();
 
@@ -30,7 +31,7 @@ app.use(
   })
 );
 
-app.use("/api/v1/general", generalRoutes);
+app.use("/api/v1/home", homeRoutes);
 app.use("/api/v1/media-library", mediaLibraryRoute);
 app.use("/api/v1/products", productsRoutes);
 app.use("/api/v1/categories", categoriesRoutes);
@@ -38,6 +39,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", usersRouts);
 app.use("/api/v1/cart", cartRouter);
 app.use("/api/v1/wishlist", wishListRouter);
+app.use("/api/v1/blogs", blogsRouter);
 
 // handle 404 routes
 app.use((req, res, next) => {
