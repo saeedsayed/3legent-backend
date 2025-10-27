@@ -1,5 +1,11 @@
 import express from "express";
-import { createBlog, deleteBlogById, getBlogById, getBlogs, updateBlog } from "../controllers/blogs.controller.js";
+import {
+  createBlog,
+  deleteBlogById,
+  getBlogById,
+  getBlogs,
+  updateBlog,
+} from "../controllers/blogs.controller.js";
 import { checkToken, restrictTo } from "../middlewares/auth.middleware.js";
 import roles from "../utils/roles.js";
 import { validate } from "../middlewares/validate.middleware.js";
@@ -12,6 +18,6 @@ router
 router
   .route("/:id")
   .get(getBlogById)
-  .put(updateBlog)
-  .delete(deleteBlogById);
+  .put(checkToken, restrictTo(roles.ADMIN), updateBlog)
+  .delete(checkToken, restrictTo(roles.ADMIN), deleteBlogById);
 export default router;
