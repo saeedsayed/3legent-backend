@@ -1,6 +1,6 @@
-import STATUS from "../constants/httpStatus.constant";
-import ShippingMethods from "../models/shippingMethods.model";
-import appError from "../utils/appError";
+import STATUS from "../constants/httpStatus.constant.js";
+import ShippingMethods from "../models/shippingMethods.model.js";
+import appError from "../utils/appError.js";
 
 export const getShippingMethods = async (req, res, next) => {
   const shippingMethods = await ShippingMethods.find();
