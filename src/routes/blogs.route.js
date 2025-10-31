@@ -7,7 +7,7 @@ import {
   updateBlog,
 } from "../controllers/blogs.controller.js";
 import { checkToken, restrictTo } from "../middlewares/auth.middleware.js";
-import roles from "../utils/roles.js";
+import roles from "../constants/roles.constant.js";
 import { validate } from "../middlewares/validate.middleware.js";
 import blogSchema from "../validators/blog.validator.js";
 const router = express.Router();

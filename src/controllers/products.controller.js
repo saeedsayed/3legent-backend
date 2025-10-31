@@ -1,13 +1,20 @@
 import appError from "../utils/appError.js";
-import STATUS from "../utils/httpStatus.js";
+import STATUS from "../constants/httpStatus.constant.js";
 import product from "../models/product.model.js";
 import { isValidObjectId } from "mongoose";
 
 // ===================================================================
 const getAllProducts = async (req, res) => {
   const { pagination, filter } = req;
-  const { currentPage, nextPage, previousPage, totalDocuments, limit, totalPages, skip } =
-    pagination;
+  const {
+    currentPage,
+    nextPage,
+    previousPage,
+    totalDocuments,
+    limit,
+    totalPages,
+    skip,
+  } = pagination;
   const products = await product.find(filter).skip(skip).limit(limit);
   res.send({
     status: STATUS.SUCCESS,

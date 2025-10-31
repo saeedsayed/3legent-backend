@@ -3,7 +3,7 @@ import user from "../models/user.model.js";
 import appError from "../utils/appError.js";
 import { clearTempFile } from "../utils/clearTempFile.js";
 import cloudinary from "../utils/cloudinary.js";
-import STATUS from "../utils/httpStatus.js";
+import STATUS from "../constants/httpStatus.constant.js";
 
 export const getAllUsers = async (req, res, next) => {
   const allUsers = await user.find();

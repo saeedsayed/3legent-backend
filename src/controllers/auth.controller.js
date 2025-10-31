@@ -1,12 +1,11 @@
-import STATUS from "../utils/httpStatus.js";
+import STATUS from "../constants/httpStatus.constant.js";
 import appError from "../utils/appError.js";
 import user from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import generateToken from "../utils/generateToken.js";
 import cart from "../models/cart.model.js";
 import wishList from "../models/wishList.model.js";
-import generateOtp from "../utils/generateOtp.js";
-import sendEmail from "../utils/senEmail.js";
+import { sendOtp } from "../utils/sendOtp.js";
 
 // ===============================  register  ======================================
 export const register = async (req, res, next) => {
@@ -73,15 +72,7 @@ export const sendOtpToEmail = async (req, res, next) => {
     );
     return next(err);
   }
-  const { otp, hashedOtp, otpExpiresAt } = await generateOtp(4, 10);
-  targetUser.otp = hashedOtp;
-  targetUser.otpExpiresAt = otpExpiresAt;
-  await targetUser.save();
-  await sendEmail({
-    to: targetUser.email,
-    subject: "Your OTP Code",
-    html: `<p style="font-size: 16px; text-align: center;">Your OTP code is <b style="font-size: 24px; display:block">👉 ${otp} 👈</b> It will expire in 10 minutes.</p>`,
-  });
+  await sendOtp(targetUser, next);
   res.json({
     status: STATUS.SUCCESS,
     message: "OTP sent to your email successfully",
@@ -124,27 +115,7 @@ export const forgotPassword = async (req, res, next) => {
     const err = appError.create("user not found", 404, STATUS.FAIL);
     return next(err);
   }
-  if (new Date(Date.now() + 8 * 60 * 1000) < targetUser.otpExpiresAt) {
-    const waitTime =
-      targetUser.otpExpiresAt - new Date(Date.now() + 8 * 60 * 1000);
-    const err = appError.create(
-      `please wait for ${Math.ceil(
-        waitTime / 1000
-      )} seconds before requesting a new OTP`,
-      400,
-      STATUS.FAIL
-    );
-    return next(err);
-  }
-  const { otp, hashedOtp, otpExpiresAt } = await generateOtp(4, 10);
-  targetUser.otp = hashedOtp;
-  targetUser.otpExpiresAt = otpExpiresAt;
-  await targetUser.save();
-  await sendEmail({
-    to: email,
-    subject: "Your OTP Code",
-    html: `<p style="font-size: 16px; text-align: center;">Your OTP code is <b style="font-size: 24px; display:block">👉 ${otp} 👈</b> It will expire in 10 minutes.</p>`,
-  });
+  await sendOtp(targetUser, next);
   res.json({
     status: STATUS.SUCCESS,
     message: "OTP sent to your email successfully",

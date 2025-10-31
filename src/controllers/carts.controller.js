@@ -1,7 +1,7 @@
 import { isValidObjectId } from "mongoose";
 import cart from "../models/cart.model.js";
 import appError from "../utils/appError.js";
-import STATUS from "../utils/httpStatus.js";
+import STATUS from "../constants/httpStatus.constant.js";
 //  ==============================  Helper Function ============================================
 const getCartTotalPrice = (cartProducts) => {
   return cartProducts.reduce((acc, p) => acc + p.quantity * p.product.price, 0);

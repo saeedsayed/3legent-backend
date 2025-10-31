@@ -5,15 +5,16 @@ import CookieParser from "cookie-parser";
 import cors from "cors";
 import fileUpload from "express-fileupload";
 // routes
-import productsRoutes from "./routes/products.route.js";
-import authRoutes from "./routes/auth.route.js";
-import usersRouts from "./routes/users.route.js";
-import categoriesRoutes from "./routes/categories.route.js";
-import cartRouter from "./routes/carts.route.js";
-import wishListRouter from "./routes/wishlist.route.js";
-import homeRoutes from "./routes/home.route.js";
+import productsRoute from "./routes/products.route.js";
+import authRoute from "./routes/auth.route.js";
+import usersRout from "./routes/users.route.js";
+import categoriesRoute from "./routes/categories.route.js";
+import cartRoute from "./routes/carts.route.js";
+import wishListRoute from "./routes/wishlist.route.js";
+import homeRoute from "./routes/home.route.js";
 import mediaLibraryRoute from "./routes/mediaLibrary.route.js";
-import blogsRouter from "./routes/blogs.route.js";
+import blogsRoute from "./routes/blogs.route.js";
+import shippingMethodsRoute from "./routes/shippingMethods.route.js"
 configDotenv();
 connectDB();
 
@@ -31,15 +32,16 @@ app.use(
   })
 );
 
-app.use("/api/v1/home", homeRoutes);
+app.use("/api/v1/home", homeRoute);
 app.use("/api/v1/media-library", mediaLibraryRoute);
-app.use("/api/v1/products", productsRoutes);
-app.use("/api/v1/categories", categoriesRoutes);
-app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/users", usersRouts);
-app.use("/api/v1/cart", cartRouter);
-app.use("/api/v1/wishlist", wishListRouter);
-app.use("/api/v1/blogs", blogsRouter);
+app.use("/api/v1/products", productsRoute);
+app.use("/api/v1/categories", categoriesRoute);
+app.use("/api/v1/auth", authRoute);
+app.use("/api/v1/users", usersRout);
+app.use("/api/v1/cart", cartRoute);
+app.use("/api/v1/wishlist", wishListRoute);
+app.use("/api/v1/blogs", blogsRoute);
+app.use("/api/v1/shipping", shippingMethodsRoute)
 
 // handle 404 routes
 app.use((req, res, next) => {

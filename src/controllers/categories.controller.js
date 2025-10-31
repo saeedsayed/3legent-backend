@@ -1,5 +1,5 @@
 import appError from "../utils/appError.js";
-import STATUS from "../utils/httpStatus.js";
+import STATUS from "../constants/httpStatus.constant.js";
 import { isValidObjectId } from "mongoose";
 import category from "../models/categories.model.js";
 

@@ -57,7 +57,7 @@ export const productSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
-    offer: {
+    discount: {
       type: Number,
       required: true,
       default: 0,
@@ -77,8 +77,9 @@ export const productSchema = new mongoose.Schema(
       type: [
         {
           user: {
-            type: String,
+            type: mongoose.Schema.Types.ObjectId,
             required: true,
+            ref:'user'
           },
           comment: {
             type: String,

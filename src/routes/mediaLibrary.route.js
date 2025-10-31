@@ -1,6 +1,6 @@
 import express from "express";
 import { checkToken, restrictTo } from "../middlewares/auth.middleware.js";
-import roles from "../utils/roles.js";
+import roles from "../constants/roles.constant.js";
 import {
   getMediaLibrary,
   uploadFiles,

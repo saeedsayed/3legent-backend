@@ -1,7 +1,7 @@
 import { isValidObjectId } from "mongoose";
 import blog from "../models/blog.model.js";
 import appError from "../utils/appError.js";
-import STATUS from "../utils/httpStatus.js";
+import STATUS from "../constants/httpStatus.constant.js";
 
 // ========================== get all blogs ==========================
 export const getBlogs = async (req, res, next) => {
@@ -88,9 +88,9 @@ export const updateBlog = async (req, res, next) => {
       return next(err);
     }
     const updatedBlog = await blog
-    .findByIdAndUpdate(blogId, update, { new: true })
-    .populate("author", "fullName email");
-    console.log('updatedBlog', updatedBlog)
+      .findByIdAndUpdate(blogId, update, { new: true })
+      .populate("author", "fullName email");
+    console.log("updatedBlog", updatedBlog);
     if (!updatedBlog) {
       const err = appError.create("blog not found", 404, STATUS.FAIL);
       return next(err);

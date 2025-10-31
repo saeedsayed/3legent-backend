@@ -1,11 +1,11 @@
 import appError from "../utils/appError.js";
-import STATUS from "../utils/httpStatus.js";
+import STATUS from "../constants/httpStatus.constant.js";
 import jwt from "jsonwebtoken";
 import user from "../models/user.model.js";
 
 export const checkToken = async (req, res, next) => {
   const token = req.headers.authorization;
-  if (!token) {
+  if (!token || !token.startsWith("Bearer ")) {
     const err = appError.create(
       "Unauthorized - No Token Provided",
       401,

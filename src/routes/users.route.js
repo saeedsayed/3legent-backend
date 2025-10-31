@@ -4,7 +4,7 @@ import {
   updateProfilePicture,
 } from "../controllers/users.controller.js";
 import { checkToken, restrictTo } from "../middlewares/auth.middleware.js";
-import roles from "../utils/roles.js";
+import roles from "../constants/roles.constant.js";
 
 const router = express.Router();
 

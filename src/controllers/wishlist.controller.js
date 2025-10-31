@@ -1,6 +1,6 @@
 import { isValidObjectId } from "mongoose";
 import appError from "../utils/appError.js";
-import STATUS from "../utils/httpStatus.js";
+import STATUS from "../constants/httpStatus.constant.js";
 import wishList from "../models/wishList.model.js";
 
 // ====================== Get wish list ==============================

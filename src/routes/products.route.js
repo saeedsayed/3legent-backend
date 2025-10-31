@@ -7,7 +7,7 @@ import {
   deleteProduct,
 } from "../controllers/products.controller.js";
 import { checkToken, restrictTo } from "../middlewares/auth.middleware.js";
-import roles from "../utils/roles.js";
+import roles from "../constants/roles.constant.js";
 import { validate } from "../middlewares/validate.middleware.js";
 import { createProductSchema } from "../validators/product.validator.js";
 import { paginate } from "../middlewares/pagination.middleware.js";

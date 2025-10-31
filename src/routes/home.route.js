@@ -8,11 +8,11 @@ import {
   getLatestProducts,
   getFeaturedBlogs,
 } from "../controllers/home.controller.js";
-import roles from "../utils/roles.js";
+import roles from "../constants/roles.constant.js";
 import { checkToken, restrictTo } from "../middlewares/auth.middleware.js";
 const router = express.Router();
 
-router.route("/").put(checkToken,restrictTo(roles.ADMIN),updateHome);
+router.route("/").put(checkToken, restrictTo(roles.ADMIN), updateHome);
 router.route("/newsbar").get(getNewsBar);
 router.route("/hero-section").get(getHeroSection);
 router.route("/featured-categories").get(getFeaturedCategories);
