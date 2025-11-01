@@ -29,6 +29,7 @@ const shippingMethodSchema = new mongoose.Schema(
       type: [String], // Example: ["US", "EU", "EG"]
       default: [],
     },
+    __v: { type: Number, select: false },
   },
   { timestamps: true }
 );

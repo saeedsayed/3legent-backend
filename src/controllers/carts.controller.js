@@ -42,11 +42,14 @@ const addToCart = async (req, res, next) => {
         totalPrice: 0,
       });
     } else {
-      const filteredProducts = userCart.products.filter(
-        (p) => p.product && p.product._id.toString() !== productId
+      const existingProduct = userCart.products.find(
+        (p) => p.product && p.product._id.toString() === productId
       );
-      filteredProducts.push({ product: productId, quantity });
-      userCart.products = filteredProducts;
+      if (existingProduct) {
+        existingProduct.quantity = quantity;
+      } else {
+        userCart.products.push({ product: productId, quantity });
+      }
     }
     userCart.totalPrice = getCartTotalPrice(
       (await userCart.populate("products.product")).products

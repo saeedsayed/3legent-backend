@@ -6,18 +6,20 @@ import {
   getShippingMethods,
   updateShippingMethod,
 } from "../controllers/shippingMethods.controller.js";
-import { restrictTo } from "../middlewares/auth.middleware.js";
+import { checkToken, restrictTo } from "../middlewares/auth.middleware.js";
 import roles from "../constants/roles.constant.js";
+import { validate } from "../middlewares/validate.middleware.js";
+import { createShippingMethodSchema, updateShippingMethodSchema } from "../validators/shippingMethods.validator.js";
 const router = express.Router();
 
 router
   .route("/")
   .get(getShippingMethods)
-  .post(restrictTo(roles.ADMIN), createShippingMethod);
+  .post(checkToken, restrictTo(roles.ADMIN), validate(createShippingMethodSchema), createShippingMethod);
 router
   .route("/:id")
   .get(getShippingMethodById)
-  .put(restrictTo(roles.ADMIN), updateShippingMethod)
-  .delete(restrictTo(roles.ADMIN), deleteShippingMethod);
+  .put(checkToken, restrictTo(roles.ADMIN), validate(updateShippingMethodSchema), updateShippingMethod)
+  .delete(checkToken, restrictTo(roles.ADMIN), deleteShippingMethod);
 
 export default router;
