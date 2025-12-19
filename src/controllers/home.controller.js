@@ -66,7 +66,7 @@ export const getFeaturedBlogs = async (req, res, next) => {
     const { featuredBlogs } = await home
       .findOne({}, { featuredBlogs: 1, _id: 0 })
       .populate("featuredBlogs")
-      .populate("author", "fullName email");
+      .populate({ path: "featuredBlogs", populate: { path: "author", select: "fullName email" } });
     res.send({
       status: STATUS.SUCCESS,
       data: featuredBlogs,
