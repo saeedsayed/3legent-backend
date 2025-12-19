@@ -47,6 +47,7 @@ export const getFeaturedCategories = async (req, res, next) => {
 export const getLatestProducts = async (req, res, next) => {
   try {
     const latestProduct = await product
+      // .find({ createdAt: { $gte: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000) } }) // products added in last 30 days
       .find({})
       .sort({ createdAt: -1 })
       .limit(10);
@@ -64,7 +65,8 @@ export const getFeaturedBlogs = async (req, res, next) => {
   try {
     const { featuredBlogs } = await home
       .findOne({}, { featuredBlogs: 1, _id: 0 })
-      .populate("featuredBlogs");
+      .populate("featuredBlogs")
+      .populate("author", "fullName email");
     res.send({
       status: STATUS.SUCCESS,
       data: featuredBlogs,

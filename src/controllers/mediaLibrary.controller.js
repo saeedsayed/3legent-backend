@@ -42,8 +42,12 @@ const getFolder = async (req, res, next) => {
 };
 
 const uploadFiles = async (req, res, next) => {
-  const { media } = req.files;
+  const { media } = req?.files;
   const { folderId } = req.params;
+  if(!media){
+    const err = appError.create("No files uploaded", 400, STATUS.FAIL);
+    return next(err);
+  }
   const arrOfMedia = Array.isArray(media) ? media : [media];
   if (!isValidObjectId(folderId)) {
     const err = appError.create("Invalid folder id", 400, STATUS.FAIL);
@@ -52,10 +56,6 @@ const uploadFiles = async (req, res, next) => {
   const folder = await MediaLibrary.findById(folderId);
   if (!folder) {
     const err = appError.create("Folder not found", 404, STATUS.FAIL);
-    return next(err);
-  }
-  if (!media) {
-    const err = appError.create("No files uploaded", 400, STATUS.FAIL);
     return next(err);
   }
   if (folder.folderTitle === "profile_pictures") {
@@ -72,6 +72,7 @@ const uploadFiles = async (req, res, next) => {
       const filePath = await cloudinary.uploader.upload(file.tempFilePath, {
         folder: folder.folderTitle,
       });
+      console.log('filePath', filePath)
       clearTempFile(file.tempFilePath);
       return { fileUrl: filePath.secure_url, publicId: filePath.public_id };
     })
