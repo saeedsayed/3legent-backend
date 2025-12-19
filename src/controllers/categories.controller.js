@@ -9,7 +9,8 @@ const getCategories = async (req, res) => {
   const categoriesLength = await category.find().countDocuments();
   res.send({
     status: STATUS.SUCCESS,
-    data: { categories, total: categoriesLength },
+    data: categories,
+    result: categoriesLength,
   });
 };
 // ====================================================================
