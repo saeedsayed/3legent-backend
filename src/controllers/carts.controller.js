@@ -4,18 +4,26 @@ import appError from "../utils/appError.js";
 import STATUS from "../constants/httpStatus.constant.js";
 //  ==============================  Helper Function ============================================
 const getCartTotalPrice = (cartProducts) => {
-  return cartProducts.reduce((acc, p) => acc + p.quantity * (p.product.price-p.product.discount), 0);
+  return cartProducts.reduce(
+    (acc, p) => acc + p.quantity * (p.product.price - p.product.discount),
+    0
+  );
 };
 
 // ===============================  Get Cart ============================================
 const getCart = async (req, res, next) => {
   try {
-    const userCart = await cart
+    let userCart = await cart
       .findOne({ user: req.userId })
       .populate("products.product");
+    console.log("userCart", userCart);
     if (!userCart) {
-      const err = appError.create("Cart not found", 404, STATUS.FAIL);
-      return next(err);
+      userCart = new cart({
+        user: req.userId,
+        products: [],
+        totalPrice: 0,
+      });
+      await userCart.save();
     }
     res.json({ status: STATUS.SUCCESS, data: userCart });
   } catch (error) {

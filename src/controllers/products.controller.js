@@ -37,7 +37,8 @@ const getSingleProduct = async (req, res, next) => {
     const err = appError.create("invalid product id", 400, STATUS.FAIL);
     return next(err);
   }
-  const targetProduct = await product.findById(id);
+  // if(req.body.versions.version)
+  const targetProduct = await product.findById(id).populate("versions.version");
   if (!targetProduct) {
     const err = appError.create("product not found", 404, STATUS.FAIL);
     return next(err);
@@ -50,15 +51,19 @@ const getSingleProduct = async (req, res, next) => {
 // ====================================================================
 const createProduct = async (req, res, next) => {
   const productData = req.body;
+  productData?.versions?.forEach(v => {
+    if (!isValidObjectId(v.version)) {
+      const err = appError.create("invalid version id", 400, STATUS.FAIL);
+      return next(err);
+    }
+  });
   const newProduct = new product(productData);
   await newProduct.save();
-  res
-    .json({
-      status: STATUS.SUCCESS,
-      data: newProduct,
-      message: "product created successfully",
-    })
-    .end();
+  res.send({
+    status: STATUS.SUCCESS,
+    data: newProduct,
+    message: "product created successfully",
+  });
 };
 // ====================================================================
 const updateProduct = async (req, res, next) => {

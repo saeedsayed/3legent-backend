@@ -1,28 +1,28 @@
 import mongoose from "mongoose";
 
-const versionsSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  price: {
-    type: Number,
-    required: true,
-  },
-  stock: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
-  thumbnail: {
-    type: String,
-    default: null,
-  },
-  images: {
-    type: [String],
-    default: [],
-  },
-});
+// const versionsSchema = new mongoose.Schema({
+//   title: {
+//     type: String,
+//     required: true,
+//   },
+//   price: {
+//     type: Number,
+//     required: true,
+//   },
+//   stock: {
+//     type: Number,
+//     required: true,
+//     default: 0,
+//   },
+//   thumbnail: {
+//     type: String,
+//     default: null,
+//   },
+//   images: {
+//     type: [String],
+//     default: [],
+//   },
+// });
 
 export const productSchema = new mongoose.Schema(
   {
@@ -63,7 +63,12 @@ export const productSchema = new mongoose.Schema(
       default: 0,
     },
     versions: {
-      type: [versionsSchema],
+      type: [
+        {
+          version: { type: mongoose.Schema.Types.ObjectId, ref: "product" },
+          versionName: String,
+        },
+      ],
       default: [],
     },
     rating: {
@@ -79,7 +84,7 @@ export const productSchema = new mongoose.Schema(
           user: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
-            ref:'user'
+            ref: "user",
           },
           comment: {
             type: String,
