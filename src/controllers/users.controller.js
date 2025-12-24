@@ -26,8 +26,7 @@ export const updateProfilePicture = async (req, res, next) => {
   const mediaLibrary = await MediaLibrary.findOne(
     {
       folderTitle: "profile_pictures",
-    },
-    { upsert: true }
+    }
   );
   await cloudinary.uploader.destroy("profile_pictures/" + userId); // delete previous picture
   const pictureUrl = await cloudinary.uploader.upload(
@@ -47,7 +46,8 @@ export const updateProfilePicture = async (req, res, next) => {
     mediaLibrary.files = mediaLibrary.files.filter(
       (file) => file.fileUrl.split("/").pop().split(".")[0] !== userId
     );
-    mediaLibrary.files.push({ fileUrl: pictureUrl.secure_url });
+    mediaLibrary.files.push({ fileUrl: pictureUrl.secure_url, publicId: pictureUrl.public_id });
+    console.log('mediaLibrary', mediaLibrary)
     await mediaLibrary.save();
   }
   // clean temp file

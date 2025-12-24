@@ -2,6 +2,7 @@ import { isValidObjectId } from "mongoose";
 import cart from "../models/cart.model.js";
 import appError from "../utils/appError.js";
 import STATUS from "../constants/httpStatus.constant.js";
+import user from "../models/user.model.js";
 //  ==============================  Helper Function ============================================
 const getCartTotalPrice = (cartProducts) => {
   return cartProducts.reduce(
@@ -23,7 +24,10 @@ const getCart = async (req, res, next) => {
         products: [],
         totalPrice: 0,
       });
+      const userDocument = await user.findById(req.userId);
+      userDocument.cart = userCart._id;
       await userCart.save();
+      await userDocument.save();
     }
     res.json({ status: STATUS.SUCCESS, data: userCart });
   } catch (error) {
