@@ -17,7 +17,6 @@ const getCart = async (req, res, next) => {
     let userCart = await cart
       .findOne({ user: req.userId })
       .populate("products.product");
-    console.log("userCart", userCart);
     if (!userCart) {
       userCart = new cart({
         user: req.userId,

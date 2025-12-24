@@ -90,7 +90,6 @@ export const updateBlog = async (req, res, next) => {
     const updatedBlog = await blog
       .findByIdAndUpdate(blogId, update, { new: true })
       .populate("author", "fullName email");
-    console.log("updatedBlog", updatedBlog);
     if (!updatedBlog) {
       const err = appError.create("blog not found", 404, STATUS.FAIL);
       return next(err);

@@ -19,8 +19,7 @@ export const sendOtp = async (user, next) => {
       400,
       STATUS.FAIL
     );
-   return next(err);
-
+    return next(err);
   }
   const { otp, hashedOtp, otpExpiresAt } = await generateOtp(
     otpDigits,
@@ -28,7 +27,6 @@ export const sendOtp = async (user, next) => {
   );
   user.otp = hashedOtp;
   user.otpExpiresAt = otpExpiresAt;
-  console.log('user.email', user.email)
   await sendEmail({
     to: user.email,
     subject: "Your OTP Code",
