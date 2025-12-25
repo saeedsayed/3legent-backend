@@ -2,18 +2,22 @@ import { isValidObjectId } from "mongoose";
 import appError from "../utils/appError.js";
 import STATUS from "../constants/httpStatus.constant.js";
 import wishList from "../models/wishList.model.js";
+import user from "../models/user.model.js";
 
 // ====================== Get wish list ==============================
 const getWishList = async (req, res, next) => {
   try {
-    const userWishList = await wishList
+    let userWishList = await wishList
       .findOne({ user: req.userId })
       .populate("products");
     if (!userWishList) {
-      const err = appError.create("WishList not found", 404, STATUS.FAIL);
-      return next(err);
+      userWishList = new wishList({ user: req.userId, products: [] });
+      const documentedUser = await user.findById(req.userId);
+      documentedUser.wishList = userWishList._id;
+      await documentedUser.save();
+      await userWishList.save();
     }
-    res.json({ status: STATUS.SUCCESS, data: userWishList.products });
+    res.json({ status: STATUS.SUCCESS, data: userWishList });
   } catch (error) {
     next(error);
   }

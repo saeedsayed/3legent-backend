@@ -23,9 +23,9 @@ export const register = async (req, res, next) => {
   newUser.cart = newCart._id;
   newUser.wishList = newWishList._id;
   const token = generateToken({ _id: newUser._id, email: newUser.email });
-  await newUser.save();
-  await newCart.save();
   await newWishList.save();
+  await newCart.save();
+  await newUser.save();
   delete newUser._doc.password;
   delete newUser._doc.__v;
   res.json({
