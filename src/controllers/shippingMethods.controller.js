@@ -6,7 +6,7 @@ export const getShippingMethods = async (req, res, next) => {
   const shippingMethods = await ShippingMethods.find();
   res.json({
     status: STATUS.SUCCESS,
-    date: shippingMethods,
+    data: shippingMethods,
   });
 };
 
