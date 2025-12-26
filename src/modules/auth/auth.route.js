@@ -7,8 +7,8 @@ import {
   sendOtpToEmail,
   verifyEmail,
   verifyForgotPasswordOtp,
-} from "../controllers/auth.controller.js";
-import { validate } from "../middlewares/validate.middleware.js";
+} from "./auth.controller.js";
+import { validate } from "../../middlewares/validate.middleware.js";
 import {
   forgotPasswordSchema,
   loginSchema,
@@ -16,8 +16,8 @@ import {
   resetPasswordSchema,
   verifyEmailSchema,
   verifyForgotPasswordOtpSchema,
-} from "../validators/auth.validator.js";
-import { checkToken } from "../middlewares/auth.middleware.js";
+} from "./auth.validator.js";
+import { checkToken } from "../../middlewares/auth.middleware.js";
 
 const router = express.Router();
 

@@ -5,14 +5,14 @@ import {
   createProduct,
   updateProduct,
   deleteProduct,
-} from "../controllers/products.controller.js";
-import { checkToken, restrictTo } from "../middlewares/auth.middleware.js";
-import roles from "../constants/roles.constant.js";
-import { validate } from "../middlewares/validate.middleware.js";
-import { createProductSchema } from "../validators/product.validator.js";
-import { paginate } from "../middlewares/pagination.middleware.js";
-import product from "../models/product.model.js";
-import { filter } from "../middlewares/filter.middleware.js";
+} from "./product.controller.js";
+import { checkToken, restrictTo } from "../../middlewares/auth.middleware.js";
+import roles from "../../constants/roles.constant.js";
+import { validate } from "../../middlewares/validate.middleware.js";
+import { createProductSchema } from "./product.validator.js";
+import { paginate } from "../../middlewares/pagination.middleware.js";
+import product from "./product.model.js";
+import { filter } from "../../middlewares/filter.middleware.js";
 
 const router = express.Router();
 

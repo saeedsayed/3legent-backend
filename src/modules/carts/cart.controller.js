@@ -1,15 +1,9 @@
 import { isValidObjectId } from "mongoose";
-import cart from "../models/cart.model.js";
-import appError from "../utils/appError.js";
-import STATUS from "../constants/httpStatus.constant.js";
-import user from "../models/user.model.js";
-//  ==============================  Helper Function ============================================
-const getCartTotalPrice = (cartProducts) => {
-  return cartProducts.reduce(
-    (acc, p) => acc + p.quantity * (p.product.price - p.product.discount),
-    0
-  );
-};
+import cart from "./cart.model.js";
+import appError from "../../utils/appError.js";
+import STATUS from "../../constants/httpStatus.constant.js";
+import user from "../users/user.model.js";
+import calculateCartSubTotal from "../../utils/calculateCartSubTotal.js";
 
 // ===============================  Get Cart ============================================
 const getCart = async (req, res, next) => {
@@ -62,7 +56,7 @@ const addToCart = async (req, res, next) => {
         userCart.products.push({ product: productId, quantity });
       }
     }
-    userCart.totalPrice = getCartTotalPrice(
+    userCart.totalPrice = calculateCartSubTotal(
       (await userCart.populate("products.product")).products
     );
     await userCart.save();
@@ -94,7 +88,7 @@ const removeFromCart = async (req, res, next) => {
     userCart.products = userCart.products.filter(
       (p) => p.product._id.toString() !== productId
     );
-    userCart.totalPrice = getCartTotalPrice(userCart.products);
+    userCart.totalPrice = calculateCartSubTotal(userCart.products);
     await userCart.save();
     res.json({
       status: STATUS.SUCCESS,

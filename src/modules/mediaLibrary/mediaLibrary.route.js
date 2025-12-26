@@ -1,6 +1,6 @@
 import express from "express";
-import { checkToken, restrictTo } from "../middlewares/auth.middleware.js";
-import roles from "../constants/roles.constant.js";
+import { checkToken, restrictTo } from "../../middlewares/auth.middleware.js";
+import roles from "../../constants/roles.constant.js";
 import {
   getMediaLibrary,
   uploadFiles,
@@ -9,7 +9,7 @@ import {
   getFolder,
   deleteFiles,
   deleteFolder,
-} from "../controllers/mediaLibrary.controller.js";
+} from "./mediaLibrary.controller.js";
 
 const router = express.Router();
 

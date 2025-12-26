@@ -1,7 +1,7 @@
 import { isValidObjectId } from "mongoose";
-import blog from "../models/blog.model.js";
-import appError from "../utils/appError.js";
-import STATUS from "../constants/httpStatus.constant.js";
+import blog from "./blog.model.js";
+import appError from "../../utils/appError.js";
+import STATUS from "../../constants/httpStatus.constant.js";
 
 // ========================== get all blogs ==========================
 export const getBlogs = async (req, res, next) => {

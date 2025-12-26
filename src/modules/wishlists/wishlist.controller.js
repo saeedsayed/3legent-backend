@@ -1,8 +1,8 @@
 import { isValidObjectId } from "mongoose";
-import appError from "../utils/appError.js";
-import STATUS from "../constants/httpStatus.constant.js";
-import wishList from "../models/wishList.model.js";
-import user from "../models/user.model.js";
+import appError from "../../utils/appError.js";
+import STATUS from "../../constants/httpStatus.constant.js";
+import wishList from "./wishList.model.js";
+import user from "../users/user.model.js";
 
 // ====================== Get wish list ==============================
 const getWishList = async (req, res, next) => {

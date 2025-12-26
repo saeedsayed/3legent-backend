@@ -1,9 +1,9 @@
 import { isValidObjectId } from "mongoose";
-import MediaLibrary from "../models/mediaLibrary.model.js";
-import appError from "../utils/appError.js";
-import STATUS from "../constants/httpStatus.constant.js";
-import cloudinary from "../utils/cloudinary.js";
-import { clearTempFile } from "../utils/clearTempFile.js";
+import MediaLibrary from "./mediaLibrary.model.js";
+import appError from "../../utils/appError.js";
+import STATUS from "../../constants/httpStatus.constant.js";
+import cloudinary from "../../utils/cloudinary.js";
+import { clearTempFile } from "../../utils/clearTempFile.js";
 
 const getMediaLibrary = async (req, res, next) => {
   const mediaLibrary = await MediaLibrary.find({

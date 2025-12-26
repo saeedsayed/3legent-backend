@@ -1,9 +1,9 @@
-import MediaLibrary from "../models/mediaLibrary.model.js";
-import user from "../models/user.model.js";
-import appError from "../utils/appError.js";
-import { clearTempFile } from "../utils/clearTempFile.js";
-import cloudinary from "../utils/cloudinary.js";
-import STATUS from "../constants/httpStatus.constant.js";
+import MediaLibrary from "../mediaLibrary/mediaLibrary.model.js";
+import user from "./user.model.js";
+import appError from "../../utils/appError.js";
+import { clearTempFile } from "../../utils/clearTempFile.js";
+import cloudinary from "../../utils/cloudinary.js";
+import STATUS from "../../constants/httpStatus.constant.js";
 
 export const getAllUsers = async (req, res, next) => {
   const allUsers = await user.find();

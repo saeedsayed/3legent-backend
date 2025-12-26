@@ -1,6 +1,6 @@
-import home from "../models/home.model.js";
-import product from "../models/product.model.js";
-import STATUS from "../constants/httpStatus.constant.js";
+import home from "./home.model.js";
+import product from "../products/product.model.js";
+import STATUS from "../../constants/httpStatus.constant.js";
 
 // ==============================  Get News Bar ============================================
 export const getNewsBar = async (req, res, next) => {

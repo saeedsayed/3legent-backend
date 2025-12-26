@@ -1,6 +1,6 @@
-import appError from "../utils/appError.js";
-import STATUS from "../constants/httpStatus.constant.js";
-import product from "../models/product.model.js";
+import appError from "../../utils/appError.js";
+import STATUS from "../../constants/httpStatus.constant.js";
+import product from "./product.model.js";
 import { isValidObjectId } from "mongoose";
 
 // ===================================================================

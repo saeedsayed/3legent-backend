@@ -7,9 +7,9 @@ import {
   // getFeaturedProducts,
   getLatestProducts,
   getFeaturedBlogs,
-} from "../controllers/home.controller.js";
-import roles from "../constants/roles.constant.js";
-import { checkToken, restrictTo } from "../middlewares/auth.middleware.js";
+} from "./home.controller.js";
+import roles from "../../constants/roles.constant.js";
+import { checkToken, restrictTo } from "../../middlewares/auth.middleware.js";
 const router = express.Router();
 
 router.route("/").put(checkToken, restrictTo(roles.ADMIN), updateHome);

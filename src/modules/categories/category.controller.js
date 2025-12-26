@@ -1,7 +1,7 @@
-import appError from "../utils/appError.js";
-import STATUS from "../constants/httpStatus.constant.js";
+import appError from "../../utils/appError.js";
+import STATUS from "../../constants/httpStatus.constant.js";
 import { isValidObjectId } from "mongoose";
-import category from "../models/categories.model.js";
+import category from "./category.model.js";
 
 // ===================================================================
 const getCategories = async (req, res) => {

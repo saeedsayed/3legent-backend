@@ -4,11 +4,11 @@ import {
   updateCategory,
   createCategory,
   deleteCategory,
-} from "../controllers/categories.controller.js";
-import { checkToken, restrictTo } from "../middlewares/auth.middleware.js";
-import roles from "../constants/roles.constant.js";
-import { validate } from "../middlewares/validate.middleware.js";
-import { createCategorySchema } from "../validators/category.validator.js";
+} from "./category.controller.js";
+import { checkToken, restrictTo } from "../../middlewares/auth.middleware.js";
+import roles from "../../constants/roles.constant.js";
+import { validate } from "../../middlewares/validate.middleware.js";
+import { createCategorySchema } from "./category.validator.js";
 
 const router = express.Router();
 

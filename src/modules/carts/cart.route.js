@@ -4,8 +4,8 @@ import {
   clearCart,
   getCart,
   removeFromCart,
-} from "../controllers/carts.controller.js";
-import { checkToken } from "../middlewares/auth.middleware.js";
+} from "./cart.controller.js";
+import { checkToken } from "../../middlewares/auth.middleware.js";
 const router = express.Router();
 router
   .route("/")

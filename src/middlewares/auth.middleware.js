@@ -1,7 +1,7 @@
 import appError from "../utils/appError.js";
 import STATUS from "../constants/httpStatus.constant.js";
 import jwt from "jsonwebtoken";
-import user from "../models/user.model.js";
+import user from "../modules/users/user.model.js";
 
 export const checkToken = async (req, res, next) => {
   const token = req.headers.authorization;

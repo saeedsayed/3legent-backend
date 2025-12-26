@@ -1,10 +1,10 @@
 import express from "express";
-import { checkToken } from "../middlewares/auth.middleware.js";
+import { checkToken } from "../../middlewares/auth.middleware.js";
 import {
   addToWishList,
   getWishList,
   removeFromWishList,
-} from "../controllers/wishlist.controller.js";
+} from "./wishlist.controller.js";
 const router = express.Router();
 router
   .route("/")

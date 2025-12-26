@@ -5,11 +5,11 @@ import {
   getShippingMethodById,
   getShippingMethods,
   updateShippingMethod,
-} from "../controllers/shippingMethods.controller.js";
-import { checkToken, restrictTo } from "../middlewares/auth.middleware.js";
-import roles from "../constants/roles.constant.js";
-import { validate } from "../middlewares/validate.middleware.js";
-import { createShippingMethodSchema, updateShippingMethodSchema } from "../validators/shippingMethods.validator.js";
+} from "./shippingMethod.controller.js";
+import { checkToken, restrictTo } from "../../middlewares/auth.middleware.js";
+import roles from "../../constants/roles.constant.js";
+import { validate } from "../../middlewares/validate.middleware.js";
+import { createShippingMethodSchema, updateShippingMethodSchema } from "./shippingMethod.validator.js";
 const router = express.Router();
 
 router
