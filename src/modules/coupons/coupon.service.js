@@ -34,7 +34,7 @@ export const applyCoupon = async (code, cartId) => {
   }
   if (cartDocument?.totalPrice < couponDocument.minOrderAmount) {
     const err = appError.create(
-      `Minimum order amount is ${coupon.minOrderAmount}`,
+      `Minimum order amount is ${couponDocument.minOrderAmount}`,
       400,
       STATUS.FAIL
     );
