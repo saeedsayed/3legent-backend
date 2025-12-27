@@ -1,8 +1,10 @@
 import STATUS from "../../constants/httpStatus.constant.js";
+import appError from "../../utils/appError.js";
 import user from "../users/user.model.js";
 import coupon from "./coupon.model.js";
 import { applyCoupon, checkCoupon, createCoupon } from "./coupon.service.js";
 
+// ======================== apply coupon on cart ==========================
 export const applyCouponController = async (req, res) => {
   const { code } = req.params;
   const { userId } = req;
@@ -14,7 +16,7 @@ export const applyCouponController = async (req, res) => {
     data,
   });
 };
-
+// ======================= create a new coupon ===========================
 export const createCouponController = async (req, res) => {
   const { body } = req;
   const newCoupon = await createCoupon(body);
@@ -24,7 +26,7 @@ export const createCouponController = async (req, res) => {
     data: newCoupon,
   });
 };
-
+// ====================== get all coupons =================================
 export const getAllCouponsController = async (req, res) => {
   const {
     currentPage,
@@ -49,3 +51,18 @@ export const getAllCouponsController = async (req, res) => {
     },
   });
 };
+// =========================== update coupon ============================
+export const updateCouponController = async (req, res)=>{
+    const {body,params}=req
+    const {id}=params
+    if(!id){
+        const err = appError.create("no coupon ID provide", 400, STATUS.FAIL)
+        throw err
+    }
+    const updatedCoupon = await coupon.findByIdAndUpdate(id,body,{new:true})
+    res.json({
+        status:STATUS.SUCCESS,
+        message:"coupon was updated",
+        data:updatedCoupon
+    })
+}
