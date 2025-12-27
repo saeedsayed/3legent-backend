@@ -6,7 +6,7 @@ import cors from "cors";
 import fileUpload from "express-fileupload";
 import v1Routes from "./routes/v1.routes.js";
 configDotenv();
-connectDB();
+await connectDB();
 
 const app = express();
 const port = process.env.PORT || 4000;
