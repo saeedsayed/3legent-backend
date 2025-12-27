@@ -6,6 +6,10 @@ import coupon from "./coupon.model.js";
 
 export const checkCoupon = async (code) => {
   const couponDocument = await coupon.findOne({ code });
+  if(!couponDocument){
+    const err = appError.create("coupon not found",404, STATUS.FAIL)
+    throw err
+  }
   const isStarted = new Date(couponDocument.startDate) < new Date();
   const isExpire = new Date(couponDocument.endDate) < new Date();
   if (
