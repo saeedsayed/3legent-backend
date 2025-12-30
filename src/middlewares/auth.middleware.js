@@ -38,6 +38,7 @@ export const restrictTo = (...roles) => {
       );
       return next(err);
     }
+    req.userRole = requestedUser.role;
     next();
   };
 };

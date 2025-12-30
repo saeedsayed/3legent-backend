@@ -5,6 +5,7 @@ import CookieParser from "cookie-parser";
 import cors from "cors";
 import fileUpload from "express-fileupload";
 import v1Routes from "./routes/v1.routes.js";
+import STATUS from "./constants/httpStatus.constant.js";
 configDotenv();
 await connectDB();
 
@@ -33,6 +34,14 @@ app.use((req, res, next) => {
 // handle errors globally
 app.use((err, req, res, next) => {
   console.log("err", err);
+  if (err.code === 11000) {
+    res.status(400).json({
+      status: STATUS.ERROR,
+      message: `you duplicate a uniq value db err message => ${err.errorResponse.errmsg}`,
+      code: 400,
+      data: err.keyValue,
+    });
+  }
   res.status(err.code || 500).json({
     status: err.status || "error",
     message: err.message || "internal server error",
