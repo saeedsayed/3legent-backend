@@ -31,6 +31,7 @@ export const addReview = async (productId, userId, comment, rating) => {
 export const getProductReviews = async (productId) => {
   const reviews = await review
     .find({ product: productId })
+    .sort({ createdAt: -1 })
     .populate("user", "avatar email fullName");
 
   return reviews;
