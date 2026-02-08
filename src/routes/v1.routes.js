@@ -11,6 +11,7 @@ import blogsRoute from "../modules/blogs/blog.route.js";
 import shippingMethodsRoute from "../modules/shippingMethods/shippingMethod.route.js";
 import couponRoute from "../modules/coupons/coupon.route.js";
 import reviewRoute from "../modules/reviews/review.route.js";
+import paymentRoute from "../modules/payment/payment.route.js";
 
 export default (app) => {
   app.use("/api/v1/home", homeRoute);
@@ -25,4 +26,5 @@ export default (app) => {
   app.use("/api/v1/shipping", shippingMethodsRoute);
   app.use("/api/v1/coupon", couponRoute);
   app.use("/api/v1/review", reviewRoute);
+  app.use("/api/v1/payment", paymentRoute);
 };

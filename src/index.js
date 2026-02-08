@@ -6,6 +6,8 @@ import cors from "cors";
 import fileUpload from "express-fileupload";
 import v1Routes from "./routes/v1.routes.js";
 import STATUS from "./constants/httpStatus.constant.js";
+// import stripe from "./utils/stripe.config.js";
+import webhookStripeRoute from "./modules/payment/payment.webhook.js";
 configDotenv();
 await connectDB();
 
@@ -14,13 +16,14 @@ const port = process.env.PORT || 4000;
 const DEVELOP_MODE = process.env.NODE_ENV === "development";
 
 app.use(cors());
+app.use(webhookStripeRoute);// to handle stripe webhooks before body parsing middleware
 app.use(express.json());
 app.use(CookieParser());
 app.use(
   fileUpload({
     useTempFiles: true,
     tempFileDir: "/tmp/",
-  })
+  }),
 );
 
 v1Routes(app);

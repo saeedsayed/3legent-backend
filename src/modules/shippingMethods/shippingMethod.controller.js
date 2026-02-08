@@ -31,7 +31,7 @@ export const createShippingMethod = async (req, res, next) => {
   }
 };
 
-export const getShippingMethodById = async (req, res, next) => {
+export const getShippingMethodByIdController = async (req, res, next) => {
   try {
     const shippingMethodId = req.params.id;
     const shippingMethod = await ShippingMethods.findById(shippingMethodId);

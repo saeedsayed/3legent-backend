@@ -2,7 +2,7 @@ import express from "express";
 import {
   createShippingMethod,
   deleteShippingMethod,
-  getShippingMethodById,
+  getShippingMethodByIdController,
   getShippingMethods,
   updateShippingMethod,
 } from "./shippingMethod.controller.js";
@@ -18,7 +18,7 @@ router
   .post(checkToken, restrictTo(roles.ADMIN), validate(createShippingMethodSchema), createShippingMethod);
 router
   .route("/:id")
-  .get(getShippingMethodById)
+  .get(getShippingMethodByIdController)
   .put(checkToken, restrictTo(roles.ADMIN), validate(updateShippingMethodSchema), updateShippingMethod)
   .delete(checkToken, restrictTo(roles.ADMIN), deleteShippingMethod);
 

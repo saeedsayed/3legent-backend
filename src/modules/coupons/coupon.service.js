@@ -31,7 +31,6 @@ export const checkCoupon = async (code) => {
 export const applyCoupon = async (code, cartId) => {
   const couponDocument = await coupon.findOne({ code });
   const cartDocument = await cart.findById(cartId).populate("products.product");
-  console.log('cartDocument', cartDocument)
   if (cartDocument.products.length === 0) {
     const err = appError.create("the cart is empty", 400, STATUS.FAIL);
     throw err;
