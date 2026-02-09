@@ -4,22 +4,22 @@ const orderItemSchema = new mongoose.Schema(
   {
     product: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Product",
+      ref: "product",
       required: true,
     },
     quantity: {
-        type: Number,
-        required: true,
-        min: [1, "Quantity must be at least 1"],
+      type: Number,
+      required: true,
+      min: [1, "Quantity must be at least 1"],
     },
   },
   { _id: false },
 );
 
-const paymentResultSchema = new mongoose.Schema(
+const paymentDetailsSchema = new mongoose.Schema(
   {
     stripePaymentIntentId: String,
-    stripeChargeId: String,
+    // stripeChargeId: String,
     method: String,
     amount: Number,
     currency: String,
@@ -31,20 +31,24 @@ const orderSchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "user",
       required: true,
     },
 
     items: [orderItemSchema],
 
     pricing: {
-      subtotal: Number,
+      subTotal: Number,
       shipping: Number,
       discount: Number,
       total: Number,
     },
 
-    coupon: String,
+    coupon: {
+      type: mongoose.Schema.Types.String,
+      default: null,
+      ref: "coupon",
+    },
 
     shippingAddress: {
       fullName: String,
@@ -54,6 +58,10 @@ const orderSchema = new mongoose.Schema(
       city: String,
       country: String,
       postalCode: String,
+    },
+    shippingMethod: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ShippingMethod",
     },
 
     status: {
@@ -76,17 +84,17 @@ const orderSchema = new mongoose.Schema(
       index: true,
     },
 
-    paymentResult: paymentResultSchema,
+    paymentDetails: paymentDetailsSchema,
 
-    stockReserved: {
-      type: Boolean,
-      default: false,
-    },
+    // stockReserved: {
+    //   type: Boolean,
+    //   default: false,
+    // },
 
-    expiresAt: {
-      type: Date, // for auto-cancel unpaid orders
-      index: true,
-    },
+    // expiresAt: {
+    //   type: Date, // for auto-cancel unpaid orders
+    //   index: true,
+    // },
 
     paidAt: Date,
     cancelledAt: Date,
@@ -94,5 +102,5 @@ const orderSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
-
-export default mongoose.model("Order", orderSchema);
+const Order = mongoose.model("Order", orderSchema);
+export default Order;

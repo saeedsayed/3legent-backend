@@ -7,7 +7,7 @@ import fileUpload from "express-fileupload";
 import v1Routes from "./routes/v1.routes.js";
 import STATUS from "./constants/httpStatus.constant.js";
 // import stripe from "./utils/stripe.config.js";
-import webhookStripeRoute from "./modules/payment/payment.webhook.js";
+import webhookStripeRoute from "./modules/payments/payment.webhook.js";
 configDotenv();
 await connectDB();
 
