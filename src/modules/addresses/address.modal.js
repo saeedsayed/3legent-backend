@@ -28,7 +28,7 @@ const addressSchema = new mongoose.Schema(
       trim: true,
       lowercase: true,
     },
-    address: {
+    street: {
       type: String,
       required: true,
       trim: true,

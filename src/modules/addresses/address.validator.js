@@ -7,7 +7,7 @@ export const createAddressSchema = Z.object({
     .max(150),
   phone: Z.string("phone is required").min(7, "phone must be valid"),
   email: Z.optional(Z.string().email("email must be valid")),
-  address: Z.string("address is required").min(
+  street: Z.string("street is required").min(
     5,
     "address must be at least 5 characters",
   ),
