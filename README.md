@@ -290,7 +290,3 @@ The application implements global error handling middleware that catches and for
 - **Addresses** - User shipping addresses
 - **Blogs** - Blog posts
 - **Media** - Uploaded media files
-
-## License
-
-MIT
